@@ -1,0 +1,47 @@
+/*Foe info box*/
+disable hud rf //Takes away resources and foe hud
+
+//Adding button to activate/deactivate box 
+var foeBUTTON = ui.AddButton()
+
+foeBUTTON.x = 18  //Button coordinates and size
+foeBUTTON.y = 3
+foeBUTTON.w = string.Size(foeBUTTON.text) + 2
+foeBUTTON.h = 3
+
+//Big ahh array of strings
+var foeInfo = ["Foe info", "foe @foe.name@", //0 1
+^"S/T @foe.state@|@foe.time@", //2
+^"Bfs @foe.buffs.string@", //3
+^"Dfs @foe.debuffs.string@", //4
+^"Hp @foe.hp@|@foe.maxhp@", //5
+^"Dmg @foe.damage@", //6
+^"C/D @foe.count@|@foe.distance", //7
+^"Ar @foe.armor@|@foe.maxarmor@", //8
+^"Lvl @foe.level@", //9
+^"B/Dc @foe.buffs.count@|@foe.debuffs.count@"] //10
+
+var foeBUTTONstate = 0  //Button state when on/off
+?foeBUTTONstate = 0  //When info box is enabled
+    draw.Box(59, 18, 31, 8, #333333, 1)
+    >`70,18,@foeInfo[0]@
+    >`61,19,@foeInfo[1]@
+    >`61,20,@foeInfo[2]@
+    >`61,21,@foeInfo[3]@
+    >`61,22,@foeInfo[4]@
+    >`61,23,@foeInfo[5]@
+    >`61,24,@foeInfo[6]@
+    >`76,20,@foeInfo[7]@
+    >`76,23,@foeInfo[8]@
+    >`70,24,@foeInfo[9]@
+    >`78,24,@foeInfo[10]@
+
+foeBUTTON.text = disable //Button text display
+?foeBUTTONstate = 1  //if disabled
+    foeBUTTON.text = enable
+?foeBUTTONstate = 2  //if enabled
+    foeBUTTONstate = 0
+
+func foeBUTTONactivation()  //change from on/off
+    foeBUTTONstate++
+foeBUTTON.SetPressed(foeBUTTONactivation)
