@@ -3,10 +3,9 @@ disable hud rf
 
 var foeBUTTON = ui.AddButton()
 foeBUTTON.x = 18
-foeBUTTON.y = 5
+foeBUTTON.y = 4
 foeBUTTON.w = string.Size(foeBUTTON.text) + 2
 foeBUTTON.h = 3
-foePANEL.Add(foeBUTTON)
 
 var on = 0
 var off = 1
