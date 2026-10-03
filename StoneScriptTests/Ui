@@ -1,37 +1,39 @@
 /*Foe info box*/                           //max  
-disable hud rf //Takes away res and foe hud
+disable hud rf
 
-//Adding button to activate/deactivate box 
 var foeBUTTON = ui.AddButton()
-
-foeBUTTON.x = 18  //Button coordinates and size
-foeBUTTON.y = 3
+foeBUTTON.x = 18
+foeBUTTON.y = 5
 foeBUTTON.w = string.Size(foeBUTTON.text) + 2
 foeBUTTON.h = 3
+foePANEL.Add(foeBUTTON)
 
-//Button state when on/off
-var foeBUTTONstate = 0
-?foeBUTTONstate = 0  //When info box is enabled
-  draw.Box(59, 18, 31, 8, #333333, 1)
-  >`70,18,Foe info
-  >`61,19,foe @foe.name@
-  >`61,20,S/T @foe.state@|@foe.time@
-  >`61,21,Bfs @foe.buffs.string@
-  >`61,22,Dfs @foe.debuffs.string@
-  >`61,23,Hp @foe.hp@|@foe.maxhp@
-  >`61,24,Dmg @foe.damage@
-  >`76,20,C/D @foe.count@|@foe.distance
-  >`76,23,Ar @foe.armor@|@foe.maxarmor@
-  >`70,24,Lvl @foe.level@
-  >`78,24,B/Dc @foe.buffs.count@|
+var on = 0
+var off = 1
+var foeBUTTONstate = on
+?foeBUTTONstate = on
+  draw.Box(60, 19, 32, 8, #333333, 1)
+  >`71,19,Foe info
+  >`61,20,foe @foe.name@
+  >`61,21,S/T @foe.state@|@foe.time@
+  >`61,22,Bfs @foe.buffs.string@
+  >`61,23,Dfs @foe.debuffs.string@
+  >`61,24,Hp @foe.hp@|@foe.maxhp@
+  >`61,25,Dmg @foe.damage@
+  >`77,21,C/D @foe.count@|@foe.distance@
+  >`77,24,Ar @foe.armor@|@foe.maxarmor@
+  >`70,25,Lvl @foe.level@
+  >`79,25,B/Dc @foe.buffs.count@|
   ^@foe.debuffs.count@
 
-foeBUTTON.text = disable //Button text display
-?foeBUTTONstate = 1  //if disabled
-  foeBUTTON.text = enable
-?foeBUTTONstate = 2  //if enabled
-  foeBUTTONstate = 0
+foeBUTTON.text = "disable"
+?foeBUTTONstate = off
+  foeBUTTON.text = "enable"
 
-func foeBUTTONactivation()  //change from on/off
-  foeBUTTONstate++
+func foeBUTTONactivation()
+  ?foeBUTTONstate = on
+    foeBUTTONstate = off
+  :
+    foeBUTTONstate = on
+
 foeBUTTON.SetPressed(foeBUTTONactivation)
