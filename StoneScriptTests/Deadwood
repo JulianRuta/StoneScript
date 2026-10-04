@@ -1,0 +1,16 @@
+                                           //max
+?loc = Deadwood & Optimize = true
+  brew wood
+  ?time = 30
+    activate potion
+  ?foe.distance < 10
+    equip skeleton
+    ?foe = phase1
+      BardicheActivate()
+    :?foe = phase2 & foe.state = 32 & 
+    ^foe.time >= 10
+      equipL stone hammer +8
+      equipR stone hammer +5
+  :?foe.distance > 9 & foe.distance
+  ^ < 11
+    stutterStep()

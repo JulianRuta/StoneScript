@@ -1,0 +1,96 @@
+                                           //max
+var defense
+defense = compound
+
+func faster()
+  ?foe.distance > 16 & pickup.distance > 7
+    equipL triskelion
+    equipR @defense@
+
+func recolect()
+  ?pickup.distance < 8 & foe.distance > 16
+    equipL triskelion
+    equipR star
+
+func dash()
+  ?foe.distance < 17 & foe.distance > 10
+    equipL triskelion
+    ?item.GetCooldown("bash") <= 0
+      equipR bashing shield
+    :?item.GetCooldown("dash") <= 0
+      equipR dashing shield
+    :
+      equipR @defense@
+
+func dodge()
+  ?foe.distance < 10
+    equipL mind
+
+
+func stutterStep()
+  ?totaltime % 2 = 0
+    equipR triskelion
+  :?totaltime % 2 = 1
+    equipR hatchet
+  equipL sword +0 0*
+
+func HammerActivate()
+  ?item.GetCooldown("heavy_hammer") <= 0 
+  ^& item.CanActivate() | item.right = 
+  ^"heavy" & item.right.state = 2
+    equip heavy hammer
+    activate R
+
+func BardicheActivate()
+  ?item.GetCooldown("bardiche") <= 0 
+  ^& item.CanActivate() | item.right = 
+  ^"bardiche" & item.right.state = 2
+    equip bardiche
+    activate R
+
+func BFG_Activate()
+  ?item.GetCooldown("blade") <= 0 &
+  ^item.CanActivate() & buffs.string ! 
+  ^"smite" & foe.count > 10
+    equip blade
+    activate R
+
+func AnimationAttackCanceling()
+  ?item.left.state = 3
+    equipL *0 wand
+    equipL @item.left@
+  ?item.right.state = 3
+    equipR *0 shield
+    equipR @item.right@
+
+func SkeletonActivate()
+  ?item.GetCooldown("skeleton_arm") 
+  ^<= 0 & item.CanActivate() & 
+  ^buffs.string = "pick_pocket:3"
+    equip skeleton
+    activate R
+
+func QuarterstaffActivate()
+  ?item.GetCooldown("quarterstaff") <= 0 &
+  ^item.CanActivate() & foe.distance > 
+  ^16 & pickup.distance > 11
+    equip quarterstaff
+    activate R
+
+func MaskActivate()
+  ?item.GetCooldown("mask") <= 0 &
+  ^item.CanActivate()
+    equip mask
+    activate R
+
+var Optimize
+Optimize = false
+?loc.stars > 4
+  Optimize = true
+
+?Optimize = true
+  faster()
+  recolect()
+  AnimationAttackCanceling()
+  QuarterstaffActivate()
+  dash()

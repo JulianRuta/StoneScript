@@ -11,8 +11,8 @@ var on = 0
 var off = 1
 var foeBUTTONstate = on
 ?foeBUTTONstate = on
-  draw.Box(60, 19, 32, 8, #333333, 1)
-  >`71,19,Foe info
+  draw.Box(60, 19, 32, 8, #333333, 3)
+  >`72,19,Foe info
   >`61,20,foe @foe.name@
   >`61,21,S/T @foe.state@|@foe.time@
   >`61,22,Bfs @foe.buffs.string@
@@ -34,5 +34,77 @@ func foeBUTTONactivation()
     foeBUTTONstate = off
   :
     foeBUTTONstate = on
-
 foeBUTTON.SetPressed(foeBUTTONactivation)
+
+/*player info*/
+
+>`2,19,GearPower @loc.gp@
+>`2,20,Left @item.left.state@|@item.left.time@
+>`2,21,Right @item.right.state@|
+^@item.right.time@
+>`2,23,Buffs @buffs.string@
+>`2,24,Debuffs @debuffs.string@
+
+>`62,4,Current 
+^@time.FormatDigital(totaltime, true)@
+>`62,5,Average 
+^@time.FormatDigital(loc.averageTime, true)@
+>`62,6,Best    @time.FormatDigital
+^(loc.bestTime, true)@
+
+var FormatBestTime
+FormatBestTime = time.FormatDigital
+^(loc.bestTime, true)
+
+var TreasureLeft
+TreasureLeft = (item.GetTreasureLimit() - 
+^item.GetTreasureCount())
+var TimeToFull
+TimeToFull = loc.averageTime * 
+^TreasureLeft
+var Counter = 0
+Counter++
+?loc.loop
+  Counter = 0
+  Counter++
+TimeToFull = TimeToFull - Counter
+>c-5,12,loot @item.GetTreasureCount()@/
+^@item.GetTreasureLimit()@
+>c-6,13,(@time.FormatDigital
+^(TimeToFull, true)@)
+
+/*Pointer*/
+
+var PointerX
+PointerX = math.BigNumber(input.x)
+var PointerXString
+PointerXString = PointerX.ToString()
+var PointerXSize
+PointerXSize = string.Size(PointerXString)
+
+var PointerY
+PointerY = math.BigNumber(input.y)
+var PointerYString
+PointerYString = PointerY.ToString()
+var PointerYSize
+PointerYSize = string.Size(PointerYString)
+
+var UnderPointerX
+UnderPointerX = input.x
+var UnderPointerY
+UnderPointerY = input.y + 1
+
+?PointerXSize = 1 & PointerYSize = 1 | 
+^PointerXSize = 1 & PointerYSize = 2
+  UnderPointerX = input.x
+  UnderPointerX = input.x - 1
+:
+  UnderPointerX = input.x
+  UnderPointerX = input.x - 2
+
+>`2,5,@PointerXSize@|@PointerYSize@
+>`2,6,@input.x@|@input.y@
+
+>`@input.x@,@input.y@,x
+>`@UnderPointerX@,@UnderPointerY@,
+^@input.x@|@input.y@
